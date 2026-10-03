@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Attendance QR Display</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; background: #111; color: #fff; margin: 0; }
+    #qrcode { background: white; padding: 20px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+
+  <h2>Scan to Mark Attendance</h2>
+  <div id="qrcode"></div>
+  <p>Code updates automatically to prevent cheating</p>
+
+  <script>
+    // URL where your gate.html is hosted
+    const GATE_PAGE_URL = "https://yourdomain.com/gate.html";
+    const REFRESH_INTERVAL_SECONDS = 10;
+
+    let qrcode = new QRCode(document.getElementById("qrcode"), { width: 280, height: 280 });
+
+    function updateQR() {
+      const now = Date.now();
+      const targetUrl = `${GATE_PAGE_URL}?t=${now}`;
+      qrcode.makeCode(targetUrl);
+    }
+
+    updateQR();
+    setInterval(updateQR, REFRESH_INTERVAL_SECONDS * 1000);
+  </script>
+
+</body>
+</html>
